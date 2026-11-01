@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#140f2e" />
+    <title>Bugsy v1.0 — CyberHeros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="CyberHeros home"><span class="brand-mark">✳</span> CYBERHEROS</a>
+      </header>
+
+      <section class="intro-row">
+        <div><div class="game-kicker">SOFTWARE UPDATE CHALLENGE <span>·</span> BUGSY</div><h1>Bugsy <em>v1.0</em></h1>
+          <p class="subtitle">Bugsy’s bugs are testing the dome’s three access points. Solve a quick update task to deploy a patch before they get in.</p>
+        </div>
+        <div class="help-chip"><span class="keycap">1</span><span class="keycap">2</span><span class="keycap">3</span><span class="help-copy">select an entry</span><span class="help-sep">·</span><span class="keycap">A</span><span class="keycap">B</span><span class="keycap">C</span><span class="help-copy">choose an answer</span></div>
+      </section>
+
+      <section class="game-frame" aria-label="Dome defense game">
+        <div class="frame-top"><div class="frame-label"><span class="tiny-square"></span> BUGSY V1.0 <span class="frame-divider">/</span> DOME DEFENSE</div><div class="weather">PROTECT ALL THREE ENTRANCES</div></div>
+        <div id="canvas-wrap"><div id="canvas-container"></div>
+          <div class="canvas-hud hud-left"><span class="hud-label">DOME INTEGRITY</span><div class="integrity-track"><div id="integrity-fill"></div></div><strong id="integrity-value">100<span>%</span></strong></div>
+          <div class="canvas-hud hud-right"><span class="hud-label">PATCHES</span><strong id="score">00</strong></div>
+          <div class="toast" id="toast" aria-live="polite"></div>
+          <div class="start-overlay" id="start-overlay"><div class="start-card"><div class="bugsy-tag">BUGSY SAYS: “YOU’LL NEVER PATCH THEM ALL!”</div><h2>Protect the<br /><em>dome.</em></h2><p>Bugs approach from above, the front, and below. Select an entry, answer its software update question, and install a patch before the bug breaks in.</p><button class="primary-btn" id="start-btn">START GAME <span>↗</span></button></div></div>
+          <div class="gameover-overlay hidden" id="gameover-overlay"><div class="gameover-card"><h2>Dome<br /><em>breached.</em></h2><p>The dome ran out of integrity. Try again and install patches before bugs break in.</p><div class="final-score">PATCHES INSTALLED <strong id="final-score">00</strong></div><button class="primary-btn" id="restart-btn">TRY AGAIN <span>↗</span></button></div></div>
+        </div>
+        <div class="lane-bar">
+          <button class="lane lane-top" data-lane="0"><span class="lane-number">01</span><span class="lane-icon">↑</span><span class="lane-name">ROOF ACCESS</span><span class="lane-state" id="state-0">CLEAR</span><span class="lane-key">1</span></button>
+          <button class="lane lane-front" data-lane="1"><span class="lane-number">02</span><span class="lane-icon">↗</span><span class="lane-name">FRONT GATE</span><span class="lane-state" id="state-1">CLEAR</span><span class="lane-key">2</span></button>
+          <button class="lane lane-tunnel" data-lane="2"><span class="lane-number">03</span><span class="lane-icon">↓</span><span class="lane-name">LOWER TUNNEL</span><span class="lane-state" id="state-2">CLEAR</span><span class="lane-key">3</span></button>
+        </div>
+      </section>
+
+      <footer class="bottom-row"><div class="legend"><span class="legend-dot bug-dot"></span> BUG DETECTED <span class="legend-dot patch-dot"></span> PATCH READY <span class="legend-dot safe-dot"></span> SECURE</div></footer>
+    </main>
+    <div id="task-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="task-title"><div class="modal-backdrop"></div><div class="task-card"><div class="task-top"><span class="task-tag"><span class="live-dot"></span> PATCH REQUIRED</span><button class="close-task" id="close-task" aria-label="Close">×</button></div><div class="task-progress"><span id="task-lane-label">ENTRY 01 / ROOF ACCESS</span><span id="task-timer">00:05</span></div><div class="task-progress-track"><div id="task-progress-fill"></div></div><div class="task-content"><div class="task-icon" id="task-icon">↻</div><div class="eyebrow">QUICK UPDATE CHECK</div><h2 id="task-title">One moment…</h2><p id="task-description"></p><div id="answer-list" class="answer-list"></div><div class="task-hint" id="task-hint">Choose the best next step to install this patch.</div></div></div></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
