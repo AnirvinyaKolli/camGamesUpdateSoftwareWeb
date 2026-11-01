@@ -18,28 +18,36 @@ function draw(){let dt=Math.min((millis()-lastFrame)/1000,.05);lastFrame=millis(
 }
 function drawScene(w,h){
  background(C.sky);
- // Pixel stars and a layered city skyline
- noStroke();fill('#fff4dc');for(let i=0;i<24;i++){let x=(i*97+23)%w,y=(i*53+17)%(h*.53);rect(x,y,2,2)}
+ // Pixel stars and layered city skyline, balanced around the dome.
+ noStroke();fill('#fff4dc');for(let i=0;i<24;i++){let x=(i*97+23)%w,y=(i*53+17)%(h*.35);rect(x,y,2,2)}
  fill('#211a4a');for(let i=0;i<12;i++){let bw=w*(.045+((i*7)%4)*.012),x=i*w/11-bw*.35,bh=h*(.18+((i*11)%5)*.035);rect(x,h*.78-bh,bw,bh);fill(i%3===0?'#2e2566':'#211a4a');rect(x+bw*.2,h*.78-bh*.72,3,5);rect(x+bw*.65,h*.78-bh*.48,3,5);fill('#211a4a')}
- // Ground and three neon entry paths
+ // Ground and approach markings.
  fill('#211a4a');rect(0,h*.78,w,h*.22);fill('#2e2566');rect(0,h*.82,w,h*.18);
- stroke('#9b6bff');strokeWeight(2);drawingContext.setLineDash([4,7]);line(w*.5,h*.16,w*.5,h*.36);line(w*.04,h*.68,w*.28,h*.68);line(w*.91,h*.95,w*.7,h*.95);drawingContext.setLineDash([]);noStroke();
- // Underground access tunnel
- fill('#140f2e');rect(w*.77,h*.83,w*.23,h*.17);fill('#33e1e8');rect(w*.77,h*.82,w*.23,3);fill('#2e2566');rect(w*.8,h*.87,w*.2,h*.13);
- // Dome shadow and sturdy pixel base
- fill('#0c0920');rect(w*.28,h*.75,w*.42,h*.055);fill('#2e2566');rect(w*.29,h*.68,w*.4,h*.1);fill('#9b6bff');rect(w*.29,h*.68,w*.4,4);fill('#211a4a');rect(w*.32,h*.7,w*.34,h*.06);
- // Faceted dome shell, bright outline, and habitat interior
- fill('#211a4a');beginShape();vertex(w*.29,h*.68);vertex(w*.29,h*.61);vertex(w*.33,h*.61);vertex(w*.33,h*.53);vertex(w*.37,h*.53);vertex(w*.37,h*.46);vertex(w*.42,h*.46);vertex(w*.42,h*.42);vertex(w*.48,h*.42);vertex(w*.48,h*.40);vertex(w*.54,h*.42);vertex(w*.54,h*.46);vertex(w*.59,h*.46);vertex(w*.59,h*.53);vertex(w*.63,h*.53);vertex(w*.63,h*.61);vertex(w*.67,h*.61);vertex(w*.67,h*.68);endShape(CLOSE);
- noFill();stroke('#ff4f9a');strokeWeight(3);beginShape();vertex(w*.29,h*.68);vertex(w*.29,h*.61);vertex(w*.33,h*.61);vertex(w*.33,h*.53);vertex(w*.37,h*.53);vertex(w*.37,h*.46);vertex(w*.42,h*.46);vertex(w*.42,h*.42);vertex(w*.48,h*.42);vertex(w*.48,h*.40);vertex(w*.54,h*.42);vertex(w*.54,h*.46);vertex(w*.59,h*.46);vertex(w*.59,h*.53);vertex(w*.63,h*.53);vertex(w*.63,h*.61);vertex(w*.67,h*.61);vertex(w*.67,h*.68);endShape();noStroke();
- fill('#33e1e8');rect(w*.34,h*.61,w*.28,2);rect(w*.4,h*.49,2,h*.11);rect(w*.57,h*.53,2,h*.08);
- // Habitat windows and doorway
- fill('#ffcf3d');rect(w*.39,h*.59,w*.025,h*.025);rect(w*.58,h*.59,w*.025,h*.025);fill('#9b6bff');rect(w*.445,h*.55,w*.07,h*.13);fill('#140f2e');rect(w*.46,h*.57,w*.04,h*.11);fill('#ff4f9a');rect(w*.476,h*.62,3,3);
- // Roof entry and front gate highlights
- fill('#140f2e');rect(w*.455,h*.39,w*.05,h*.035);fill('#ff4f9a');rect(w*.47,h*.385,w*.02,3);fill('#33e1e8');rect(w*.475,h*.65,w*.01,h*.02);
- fill('#fff4dc');textFont('monospace');textSize(9);textAlign(CENTER);text('ROOF',w*.5,h*.15);text('GATE',w*.14,h*.65);text('TUNNEL',w*.88,h*.92);
+ stroke('#9b6bff');strokeWeight(2);drawingContext.setLineDash([4,7]);line(w*.5,h*.14,w*.5,h*.355);line(w*.04,h*.65,w*.225,h*.65);line(w*.98,h*.90,w*.88,h*.90);drawingContext.setLineDash([]);noStroke();
+ // Underground hatch at the dome's right foot. The glowing edge is the threshold.
+ fill('#140f2e');rect(w*.79,h*.82,w*.08,h*.15);fill('#2e2566');rect(w*.73,h*.87,w*.06,h*.08);fill('#33e1e8');rect(w*.79,h*.82,3,h*.15);fill('#140f2e');rect(w*.81,h*.85,w*.04,h*.1);
+ // Centered foundation.
+ fill('#0c0920');rect(w*.27,h*.75,w*.46,h*.055);fill('#2e2566');rect(w*.28,h*.68,w*.44,h*.1);fill('#9b6bff');rect(w*.28,h*.68,w*.44,4);fill('#211a4a');rect(w*.31,h*.7,w*.38,h*.06);
+ // Symmetric stair-step hemisphere: broad at the base, rounded toward the crown.
+ const dome=[
+  [.28,.68],[.28,.61],[.31,.61],[.31,.55],[.35,.55],[.35,.49],[.40,.49],[.40,.44],[.45,.44],[.45,.41],[.48,.41],[.48,.39],
+  [.52,.39],[.52,.41],[.55,.41],[.55,.44],[.60,.44],[.60,.49],[.65,.49],[.65,.55],[.69,.55],[.69,.61],[.72,.61],[.72,.68]
+ ];
+ fill('#211a4a');beginShape();for(const [x,y] of dome)vertex(w*x,h*y);endShape(CLOSE);
+ noFill();stroke('#ff4f9a');strokeWeight(3);beginShape();for(const [x,y] of dome)vertex(w*x,h*y);endShape();noStroke();
+ // Structural ribs and the warm, inhabited interior.
+ fill('#33e1e8');rect(w*.32,h*.61,w*.36,2);rect(w*.405,h*.47,2,h*.12);rect(w*.592,h*.47,2,h*.12);
+ fill('#ffcf3d');rect(w*.405,h*.58,w*.025,h*.025);rect(w*.57,h*.58,w*.025,h*.025);
+ fill('#9b6bff');rect(w*.455,h*.53,w*.09,h*.15);fill('#140f2e');rect(w*.47,h*.56,w*.06,h*.12);fill('#ff4f9a');rect(w*.515,h*.62,3,3);
+ // Roof hatch at the crown.
+ fill('#140f2e');rect(w*.475,h*.375,w*.05,h*.03);fill('#ff4f9a');rect(w*.49,h*.37,w*.02,3);fill('#fff4dc');rect(w*.498,h*.375,2,2);
+ // Front airlock mounted on the left face; its outer edge marks the threshold.
+ fill('#9b6bff');rect(w*.245,h*.605,w*.075,h*.085);fill('#140f2e');rect(w*.255,h*.615,w*.055,h*.065);fill('#33e1e8');rect(w*.245,h*.605,3,h*.085);fill('#ff4f9a');rect(w*.267,h*.625,w*.032,h*.045);fill('#fff4dc');rect(w*.282,h*.645,2,2);
+ // Clear entry labels.
+ fill('#fff4dc');textFont('monospace');textSize(9);textAlign(CENTER);text('ROOF',w*.5,h*.14);text('GATE',w*.14,h*.62);text('TUNNEL',w*.89,h*.80);
 }
 function spawnBug(){let lane=floor(random(3));if(bugs.some(b=>b.lane===lane))return;bugs.push({lane,pos:0,speed:random(.055,.075)+patches*.001,arrived:false,wait:0,phase:random(TWO_PI),hitPulse:0});}
-function bugPos(b){let w=width,h=height;if(b.lane===0)return{x:w*.5+sin(b.phase+frameCount*.04)*5,y:lerp(h*.18,h*.36,b.pos)};if(b.lane===1)return{x:lerp(w*.04,w*.36,b.pos),y:h*.68+sin(b.phase+frameCount*.06)*4};return{x:lerp(w*.9,w*.66,b.pos),y:lerp(h*.96,h*.79,b.pos)}}
+function bugPos(b){let w=width,h=height;if(b.lane===0)return{x:w*.5+sin(b.phase+frameCount*.04)*2,y:lerp(h*.14,h*.355,b.pos)};if(b.lane===1)return{x:lerp(w*.04,w*.225,b.pos),y:h*.65+sin(b.phase+frameCount*.06)*2};return{x:lerp(w*.98,w*.88,b.pos),y:lerp(h*.90,h*.90,b.pos)}}
 function drawBugs(){const sprite=['..PPPP..','.PDDDDP.','PDEDDDEP','PDDDDDDP','.P.DD.P.','P......P'];for(const b of bugs){const p=bugPos(b),cell=Math.max(2,Math.floor(Math.min(width,height)*.006));push();translate(Math.round(p.x),Math.round(p.y));if(b.hitPulse>0){fill(255,79,154,100+b.hitPulse*150);rect(-cell*5,-cell*5,cell*10,cell*10)}for(let y=0;y<sprite.length;y++)for(let x=0;x<sprite[y].length;x++){let pix=sprite[y][x];if(pix==='.')continue;fill(pix==='P'?'#ff4f9a':pix==='E'?'#fff4dc':'#2e2566');rect((x-4)*cell,(y-3)*cell,cell,cell)}if(b.arrived){fill('#140f2e');rect(-cell*4,-cell*6,cell*8,2);fill('#ff4f9a');rect(-cell*4,-cell*6,cell*8*(5-b.wait)/5,2)}pop()}}
 function drawParticles(){for(const p of particles){push();fill(p.color);noStroke();let alpha=map(p.life,0,.75,0,255);drawingContext.globalAlpha=alpha/255;ellipse(p.x,p.y,5,5);drawingContext.globalAlpha=1;pop()}}
 function updateHUD(){document.getElementById('integrity-value').innerHTML=`${integrity}<span>%</span>`;let fill=document.getElementById('integrity-fill');fill.style.width=integrity+'%';fill.style.background=integrity<=40?'#ff4f9a':'#33e1e8';document.getElementById('score').textContent=String(patches).padStart(2,'0');for(let i=0;i<3;i++){let b=bugs.find(x=>x.lane===i),el=document.getElementById('state-'+i),btn=document.querySelector(`[data-lane="${i}"]`);btn.classList.toggle('danger',!!b);btn.classList.toggle('patch-ready',activeTask&&activeTask.lane===i);el.textContent=b?(b.arrived?`BREACH ${Math.ceil(5-b.wait)}s`:'APPROACHING'):'CLEAR'}}
